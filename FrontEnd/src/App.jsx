@@ -1,9 +1,10 @@
+import React from 'react';
 import './App.css'
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import NavBar from './components/NavBar'
 import axios from 'axios';
-import { UserProvider } from './UserContext';
+import { getInfo } from './utilities';
 
 function App() {
 
@@ -21,16 +22,21 @@ function App() {
   //   testConnection()
   // }, [])
 
-  // const [user, setUser] = useState(useLoaderData());
+  const [user, setUser] = useState(useLoaderData());
+
+  // useEffect(()=> {
+  //   // someFunction() getInfo maybe from utilities.jsx
+  //   // setUser()
+
+  // }, [user])
 
   return (
-    // <>
-      <UserProvider>
-        <NavBar/>
-        <h1>Cro-Music</h1>
-        <Outlet />
-      </UserProvider>
-    // </>
+    <>
+      <NavBar/>
+      <h1>Cro-Music</h1>
+      
+      <Outlet context={{ user, setUser }}/>
+    </>
   )
 }
 

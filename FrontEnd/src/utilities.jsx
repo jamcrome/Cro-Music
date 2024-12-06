@@ -1,5 +1,6 @@
 import axios from "axios";
-// import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const api = axios.create({
   baseURL: "http://127.0.0.1:8000/api/v1/"
@@ -54,11 +55,13 @@ export const userLogIn = async (formData) => {
 } 
 
 export const userLogOut = async (user) => {
+
   let response = await api.post('users/logout/');
   if (response.status === 204) {
     localStorage.removeItem("token")
     delete api.defaults.headers.common['Authorization']
     console.log("user logged out")
+    window.location.reload('/')
     return null
   }
   alert("failure to log out")

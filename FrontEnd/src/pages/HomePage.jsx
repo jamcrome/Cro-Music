@@ -1,16 +1,17 @@
-import React from "react";
-import { useUser } from "../UserContext";
+import { useOutletContext, useLoaderData } from "react-router-dom";
+// import axios from "axios";
 
-const HomePage = () => {
+const HomePage = ({  }) => {
 
-  const { user } = useUser();
+  const { user } = useOutletContext(useLoaderData());
+  console.log(user)
 
   return(
       <>
         <h1>HomePage</h1>
-        {user ? ( 
-          <h2>Welcome {user.username}</h2> 
-          ) : ( null )
+        {user ? (
+          <h2>Welcome {user}</h2>
+          ) : ( <h2>Please Log In</h2> )
         }
       </>
   )

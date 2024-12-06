@@ -1,24 +1,29 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useOutletContext, useNavigate } from "react-router-dom"
 import { userLogIn } from "../utilities";
-import { useUser } from "../UserContext";
 
 function LogInForm() {
 
-  const { setUser } = useUser();
+  const { setUser } = useOutletContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const handleNavigation = (path) => {
+    navigate(path);
+    window.location.reload();
+  }
 
   const handleSubimt = async (e) => {
     e.preventDefault();
-    const formData = { email, password };
-    const user = await userLogIn(formData)
-    setUser(user);
-    navigate('/');
+    let formData = {
+      email: email,
+      password: password
+    };
+    setUser(await userLogIn(formData));
+    handleNavigation('/')
   };
 
   return(
