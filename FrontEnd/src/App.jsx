@@ -32,7 +32,7 @@ function App() {
 
   return (
     <>
-      <NavBar/>
+      <NavBar user={user}/>
       <h1>Cro-Music</h1>
       
       <Outlet context={{ user, setUser }}/>
