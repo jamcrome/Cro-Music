@@ -17,12 +17,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import JsonResponse
+from django.conf.urls.static import static
+from django.conf import settings
+# from library_app import views
+
 
 def test_connection(request):
   return JsonResponse({"connected": True})
 
 urlpatterns = [
+    # path('pdf/<str:pdf_filename>/', views.display_pdf, name='display_pdf'),
+    
     path("", test_connection),
     path('admin/', admin.site.urls),
-    path('api/v1/users/', include('user_app.urls'))
-]
+    path('api/v1/users/', include('user_app.urls')),
+    path('api/v1/upload/', include('file_manager_app.urls')),
+    path('api/v1/library/', include('library_app.urls')),
+    path('api/v1/composer/', include('composer_app.urls')),
+    path('api/v1/spotify/', include('spotify_app.urls'))
+] 
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

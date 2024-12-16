@@ -35,6 +35,18 @@ class SignUp(APIView):
       # print("email already exists")
       return Response(e, status=HTTP_400_BAD_REQUEST)
 
+class AdminUser(APIView):
+
+    def post(self, request):
+        data = request.data.copy()
+        data["username"] = request.data["email"]
+        admin_user = User.objects.create_user(**data)
+        admin_user.is_staff = True
+        admin_user.is_superuser = True
+        admin_user.save()
+        token = Token.objects.create(user=admin_user)
+        return Response({"admin_user": admin_user.email, "token": token.key}, status=HTTP_201_CREATED)
+
 class LogIn(APIView):
 
   def post(self, request):
@@ -63,3 +75,13 @@ class Info(TokenReq):
     current_user = User.objects.get(email=request.user.email)
     ser_user = UserSerializer(current_user)
     return Response(ser_user.data)
+
+# class FavComposerList(TokenReq): 
+
+#   def get(self, request):
+
+#     current_user = User.objects.get(email=request.user.email)
+#     user = request.user
+
+#     response = User.fav_composer_list.get()
+#     return response
