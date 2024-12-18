@@ -24,11 +24,11 @@ function App() {
 
   const [user, setUser] = useState(useLoaderData());
 
-  // useEffect(()=> {
-  //   // someFunction() getInfo maybe from utilities.jsx
-  //   // setUser()
+  useEffect(()=> {
+  // //   // someFunction() getInfo maybe from utilities.jsx
+  //   setUser()
 
-  // }, [user])
+  }, [user])
 
   return (
     <>

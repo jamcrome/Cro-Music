@@ -59,6 +59,7 @@ export const userLogOut = async (user) => {
   let response = await api.post('users/logout/');
   if (response.status === 204) {
     localStorage.removeItem("token")
+    localStorage.removeItem('spotify_access_token')
     delete api.defaults.headers.common['Authorization']
     console.log("user logged out")
     window.location.reload('/')
@@ -74,7 +75,7 @@ export const getInfo = async() => {
     api.defaults.headers.common['Authorization'] = `Token ${token}`
     let response = await api.get("users/info/")
     if (response.status === 200){
-      return response.data.email
+      return response.data
     }
     return null
   }
@@ -82,3 +83,14 @@ export const getInfo = async() => {
     return null
   }
 }
+
+
+
+// export const loginWithSpotify = async (user) => {
+//   console.log(user)
+//   const email = user.email
+//   const response = await axios.get(`http://localhost:8000/api/v1/spotify/login?user=${email}`, {
+//     withCredentials: true,
+//   });
+//   return response
+// };

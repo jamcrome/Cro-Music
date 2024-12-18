@@ -2,24 +2,37 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from requests import Request, post
 from django.http import HttpResponseRedirect, JsonResponse
-# from .credentials import CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 from cro_music_proj.settings import env
 import base64
+from .models import SpotifyAccessToken
+from user_app.models import User
+from rest_framework.status import HTTP_400_BAD_REQUEST
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 CLIENT_ID = env.get("CLIENT_ID")
 CLIENT_SECRET = env.get("CLIENT_SECRET")
 REDIRECT_URI = env.get("REDIRECT_URI")
-# from ..user_app.views import TokenReq
-# from rest_framework import status, response
-# from rest_framework.response import Response
-# from .extras import check_tokens, create_or_update_tokens, is_spotify_authenticated, spotify_request_execution
-# from .models import Token
 
 # Create your views here.
+
+# class TokenReq(APIView):
+
+
 class SpotifyLogin(APIView):
 
+  # authentication_classes=[TokenAuthentication]
+  # permission_classes=[IsAuthenticated]
+
+  # def get(self, request):
+  #   user = request.user
+  #   print(user)
+
   def get(self, request):
-    scopes = "user-read-currently-playing user-read-playback-state user-modify-playback-state"
+    # print(request.query_params.get('user'))
+    # user = request.query_params.get('user')
+    scopes = "user-read-private user-read-email"
     url = Request('GET', 'https://accounts.spotify.com/authorize?', params={
       'client_id' : CLIENT_ID,
       'response_type' : 'code',
@@ -28,16 +41,18 @@ class SpotifyLogin(APIView):
     }).prepare().url
     return HttpResponseRedirect(url)
 
-# class SpotifyRedirect(APIView):
-
 def spotify_redirect(request):
   print(request)
+  # if not request.user.is_authenticated:
+  #       return JsonResponse({"error": "User not authenticated"}, status=HTTP_400_BAD_REQUEST)
+  
   code = request.GET.get('code')
   error = request.GET.get('error')
-  print('Hello')
-  print(code)
+  # print('Hello')
+  # print(code)
   if error:
     print(error)
+    # return JsonResponse({"error": error}, status=HTTP_400_BAD_REQUEST)
 
   credentials = f"{CLIENT_ID}:{CLIENT_SECRET}".encode('utf-8')
   base64_credentials = base64.b64encode(credentials).decode("utf-8")
@@ -46,8 +61,6 @@ def spotify_redirect(request):
     'grant_type' : 'authorization_code',
     'code' : code,
     'redirect_uri' : REDIRECT_URI,
-    # 'client_id' : CLIENT_ID,
-    # 'client_secret' : CLIENT_SECRET
   },
   headers = {
     'content-type': 'application/x-www-form-urlencoded',
@@ -55,12 +68,34 @@ def spotify_redirect(request):
   }).json()
   print(response)
 
-  token = response.get('access_token')
+  # authKey = request.session.session_key
+  access_token = response.get('access_token')
+  refresh_token = response.get('refresh_token')
+  # expires_in = response.get('expires_in')
+  # token_type = response.get('token_type')
+  
+  # if not access_token or not refresh_token:
+  #       return JsonResponse({"error": "Failed to retrieve access token."}, status=HTTP_400_BAD_REQUEST)
 
+  # user = request.query_params.get('user')
+  # print(user)
+  # spotify_token, created = SpotifyAccessToken.objects.get_or_create(user=user)
 
-  return JsonResponse(token, safe=False)
+  # spotify_token.access_token = access_token
+  # spotify_token.refresh_token = refresh_token  
+  # spotify_token.save()
+  
+  tokens = SpotifyAccessToken(
+    access_token = access_token,
+    refresh_token = refresh_token,
+  )
+  tokens.save()
+  print(tokens)
+  
+  url = f'http://localhost:5173/account/?access_token={access_token}'
+  return HttpResponseRedirect(url)
 
-  pass
+# class SpotifyUserProfile(APIView):
 
 
 

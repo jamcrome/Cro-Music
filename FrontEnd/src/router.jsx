@@ -5,6 +5,7 @@ import SignUp from './pages/SignUpPage';
 import LogIn from './pages/LogInPage';
 import { getInfo } from './utilities';
 import AccountPage from './pages/AccountPage';
+import ComposerDetails from './pages/ComposerDetailsPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,12 @@ const router = createBrowserRouter([
       {
         path: "account/",
         element:<AccountPage/>
+      },
+      {
+        path: "composer-details/:id/",
+        element: <ComposerDetails/>
       }
+      
     ]
   }
 ])
