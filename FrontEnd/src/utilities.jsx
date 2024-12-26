@@ -54,19 +54,20 @@ export const userLogIn = async (formData) => {
   return null
 } 
 
-export const userLogOut = async (user) => {
+export const userLogOut = async (setUser) => {
 
   let response = await api.post('users/logout/');
   if (response.status === 204) {
     localStorage.removeItem("token")
     localStorage.removeItem('spotify_access_token')
     delete api.defaults.headers.common['Authorization']
+    setUser(null)
     console.log("user logged out")
-    window.location.reload('/')
-    return null
+    // navigate('login/')
+    return true
   }
-  alert("failure to log out")
-  return user
+  console.log("failure to log out")
+  return false
 }
 
 export const getInfo = async() => {

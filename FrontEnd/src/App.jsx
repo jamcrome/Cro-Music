@@ -4,7 +4,6 @@ import { Outlet, useLoaderData, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NavBar from './components/NavBar'
 import axios from 'axios';
-import { getInfo } from './utilities';
 
 function App() {
 
@@ -25,15 +24,14 @@ function App() {
   const [user, setUser] = useState(useLoaderData());
 
   useEffect(()=> {
-  // //   // someFunction() getInfo maybe from utilities.jsx
+    // someFunction() getInfo maybe from utilities.jsx
   //   setUser()
 
   }, [user])
 
   return (
     <>
-      <NavBar user={user}/>
-      <h1>Cro-Music</h1>
+      <NavBar user={user} setUser={setUser}/>
       
       <Outlet context={{ user, setUser }}/>
     </>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { userRegistration } from "../utilities"
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 
 function SignUpForm() {
@@ -11,6 +11,7 @@ function SignUpForm() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,61 +22,63 @@ function SignUpForm() {
       password: password
     };
     setUser(await userRegistration(formData));
-    // TO-DO: try and except for errors
+    navigate('../login/')
   };
 
   return (
     <>
-      <Form onSubmit={(e)=> handleSubmit(e)}>
-        <Form.Group>
-          <Form.Label>First Name</Form.Label>
-          <Form.Control
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            type="name"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            type="Name"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="Enter email"
-          />
-          <Form.Text className="text-muted">
-            We will never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-          />
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            // value={password}
-            // onChange={(e) => setEmail(e.target.value)}
-            type="password"
-          />
-          <Form.Text className="text-muted">
-            Must contain etc.....
-          </Form.Text>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
+      <div className="flex flex-col bg-slate-800 pt-8 px-10 pb-4 h-min text-white rounded-lg">
+        <h1 className="text-center pb-2">User Sign-up</h1>
+        <Form onSubmit={(e)=> handleSubmit(e)}>
+          <Form.Group className="pb-3">
+            <Form.Label>First Name</Form.Label>
+            <Form.Control
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              type="name"
+              placeholder="ex: John"
+            />
+          </Form.Group>
+          <Form.Group className="pb-3">
+            <Form.Label>Last Name</Form.Label>
+            <Form.Control
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              type="Name"
+              placeholder="ex: Smith"
+            />
+          </Form.Group>
+          <Form.Group >
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="Enter email"
+            />
+            <p className="text-slate-400 text-md pt-2">We will never share your email with anyone else.</p>
+          </Form.Group>
+          <Form.Group className="pb-4">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="ex: 0-9a-zA-Z!@#$&?"
+            />
+            <Form.Label className="pt-3">Confirm Password</Form.Label>
+            <Form.Control
+              // value={password}
+              // onChange={(e) => setEmail(e.target.value)}
+              type="password"
+              placeholder="Confirm password"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Sign Up
+          </Button>
+        </Form>
+      </div>
     </>
   );
 };

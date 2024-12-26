@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import FileUpload, FileList
 
 urlpatterns = [
-
-    # path('pdfs/<str:pdf_filename>/', views.display_pdf, name='display_pdf'), 
+    path('upload/', FileUpload.as_view(), name='file-upload'),
+    path('files/', FileList.as_view(), name='file-list'),
 ]

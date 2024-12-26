@@ -4,4 +4,4 @@ from .models import FavoriteComposers
 class FavoriteComposersSerializer(serializers.ModelSerializer):
     class Meta:
         model = FavoriteComposers
-        fields = ['composer_id']
+        fields = ['composer_id', 'name', 'user', 'portrait_url']

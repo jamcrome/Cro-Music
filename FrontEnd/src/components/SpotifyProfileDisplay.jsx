@@ -34,20 +34,11 @@ function SpotifyProfileDisplay() {
       setLoading(false); // Set loading to false after the request is finished
     }
   };
-
-    // const response = await fetch('https://api.spotify.com/v1/me', {
-    //   headers: {
-    //     Authorization: 'Bearer ' + spotify_access_token
-    //   }
-    // });
-    // const data = response.json()
-    // console.log(data)
     
     useEffect(() => {
       getSpotifyProfile(); // Call the function to fetch the profile data
-    }, []); // Empty dependency array means this effect runs once when the component mounts
+    }, []);
   
-    // Render loading, error, or the profile data
     if (loading) {
       return <div>Loading...</div>;
     }
@@ -60,11 +51,15 @@ function SpotifyProfileDisplay() {
     <>
       <div >
       {profile ? (
-        <div>
-          <h3>Spotify Profile</h3>
-          <p><strong>Name:</strong> {profile.display_name}</p>
-          <p><strong>Email:</strong> {profile.email}</p>
-          <img src={profile.images[0]?.url} alt="Profile" width="100" />
+        <div className='flex'>
+          <div>
+            <h3>Spotify Profile</h3>
+            <p><strong>Name:</strong> {profile.display_name}</p>
+            <p><strong>Email:</strong> {profile.email}</p>
+          </div>
+          <div>
+            <img src={profile.images[0]?.url} alt="Profile" width="100" />
+          </div>
         </div>
       ) : (
         <p>No profile data available.</p>

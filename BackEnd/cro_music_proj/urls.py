@@ -31,7 +31,7 @@ urlpatterns = [
     path("", test_connection),
     path('admin/', admin.site.urls),
     path('api/v1/users/', include('user_app.urls')),
-    path('api/v1/upload/', include('file_manager_app.urls')),
+    # path('api/v1/upload/', include('file_manager_app.urls')),
     path('api/v1/library/', include('library_app.urls')),
     path('api/v1/composer/', include('composer_app.urls')),
     path('api/v1/spotify/', include('spotify_app.urls'))

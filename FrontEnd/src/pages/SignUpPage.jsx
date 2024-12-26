@@ -4,8 +4,9 @@ const SignUp = () => {
 
   return(
     <>
-      <h1>SignUp</h1>
-      <SignUpForm/>
+      <div className="bg-slate-950 h-screen flex place-content-center pt-20">
+        <SignUpForm/>
+      </div>
     </>
   )
 }

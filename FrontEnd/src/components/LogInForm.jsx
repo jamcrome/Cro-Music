@@ -28,30 +28,33 @@ function LogInForm() {
 
   return(
     <>
-      <Form onSubmit={(e)=> handleSubimt(e)}>
-        <Form.Group>
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="Enter email"
-          />
-        </Form.Group>
-        <Form.Group>
-        <Form.Label>Password</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Enter password"
-          />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Log In
-        </Button>
-        <h3>Not Registered? <Link to='/signup/'>Sign Up Here</Link></h3>
-      </Form>
+      <div className="flex flex-col bg-slate-800 pt-8 px-10 pb-2 h-min w text-white rounded-lg">
+        <h1 className="text-center pb-2">User Login</h1>
+        <Form onSubmit={(e)=> handleSubimt(e)}>
+          <Form.Group className="pb-3">
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              placeholder="Enter email"
+            />
+          </Form.Group>
+          <Form.Group>
+          <Form.Label>Password</Form.Label>
+            <Form.Control
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              placeholder="Enter password"
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit" className="my-4">
+            Log In
+          </Button>
+          <h3 className="text-white">No Account? <Link to='/signup/'>Sign Up Here!</Link></h3>
+        </Form>
+      </div>
     </>
   )
 }

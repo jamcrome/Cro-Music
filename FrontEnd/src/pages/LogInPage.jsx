@@ -5,8 +5,9 @@ const LogIn = () => {
 
   return (
     <>
-      <h1>Log In Page</h1>
-      <LogInForm/>
+      <div className="bg-slate-950 h-screen flex place-content-center pt-20">
+        <LogInForm/>
+      </div>
     </>
   );
 };
